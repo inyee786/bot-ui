@@ -1,0 +1,18 @@
+language: bash
+sudo: required
+env:
+  global:
+    - COMMIT=${TRAVIS_COMMIT::7}
+services:
+  - docker
+script:
+  - echo $TRAVIS_BRANCH
+  - echo $TRAVIS_PULL_REQUEST
+after_success:
+- if [ "$TRAVIS_BRANCH" = "master" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then export REPO=inyee/ui-bot;
+   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS" && docker build -t $REPO:$COMMIT . && docker push $REPO; 
+  fi
+- if [ "$TRAVIS_BRANCH" = "staging" -a "$TRAVIS_PULL_REQUEST" = "false" ]; then export REPO=inyee/staging-ui-bot;
+   docker login -u "$DOCKER_USER" -p "$DOCKER_PASS"&& docker build -t $REPO:$COMMIT . && docker push $REPO; 
+  fi  
+

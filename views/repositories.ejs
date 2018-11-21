@@ -1,0 +1,59 @@
+<!-- views/profile.ejs -->
+<!doctype html>
+<html>
+<head>
+	<title>Node Authentication</title>
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+	<style>
+		body 		{ padding-top:20px; word-wrap:break-word; }
+	</style>
+</head>
+<body>
+<div class="container">
+
+	<div class="page-header text-center">
+		<img src="./openebs.png" alt="openebs">
+		<h1></span> Repositories Page</h1>
+		<a href="/logout" class="btn btn-default btn-sm">Logout</a>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12">
+			<% for(var i=0; i<repositories.length; i++) {%>		
+			<div style="padding-bottom:60px;">
+				<% if ((message.length > 0) && repositories[i]._id.equals(id)  && (success==1)) { %>
+					
+					<div class="alert alert-success alert-dismissible"><span><%= message %> </span> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+				<% } %>
+				<% if ((message.length > 0) && repositories[i]._id.equals(id)  && (success==0)) { %>
+					<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+					<div class="alert alert-danger alert-dismissible"><span> <%= message %> </span> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>
+				<% } %>
+				<form action="/update" method="post">			
+					<div> Repositories name : <%= repositories[i].name %></div>
+					<div> Organization Name : <%= repositories[i].orgName %> </div>
+					<div class="form-group">
+						<label>Curl Url: </label>
+						<input type="text" class="form-control" name="curlUrl"  value=<%= repositories[i].curlUrl %> >
+					</div>
+					<div class="form-group">
+						<label>Token</label>
+						<input type="text" class="form-control" name="token" value=<%= repositories[i].token %> >
+					</div>
+					<div class="form-group">
+						<label>Ref:</label>
+						<input type="text" class="form-control" name="ref" value=<%= repositories[i].ref %> >
+					</div>
+					<input type="hidden" class="form-control" name="_id" value=<%= repositories[i]._id %> >
+					<input type="hidden" class="form-control" name="repoId" value=<%= repositories[i].repoId %> >
+					<input type="hidden" class="form-control" name="name" value=<%= repositories[i].name %> >	
+					<button type="submit" class="btn btn-warning btn-sm">update</button>
+				</form>		
+			</div>
+		<% } %>
+		</div>
+   </div>
+</div>
+</body>
+</html>
